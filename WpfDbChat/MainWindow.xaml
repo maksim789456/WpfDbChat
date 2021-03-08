@@ -1,0 +1,31 @@
+﻿<Window x:Class="WpfDbChat.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfDbChat"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ListBox ItemsSource="{Binding ChatItems}" SelectedItem="{Binding SelectedItem}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Height="auto">
+                        <TextBlock Text="{Binding Date}"></TextBlock>
+                        <TextBlock Text="{Binding Username}"></TextBlock>
+                        <TextBlock Text="{Binding Message}"></TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <StackPanel Grid.Column="1">
+            <TextBox Text="{Binding Username}"></TextBox>
+            <TextBox Text="{Binding Text}"></TextBox>
+            <Button Command="{Binding AddCommand}">Добавить</Button>
+        </StackPanel>
+    </Grid>
+</Window>
