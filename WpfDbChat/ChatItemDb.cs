@@ -1,12 +1,7 @@
-﻿using System;
-
-namespace WpfDbChat
+﻿namespace WpfDbChat
 {
-    public class ChatItemDb
+    public class ChatItemDb : ChatItem
     {
         public int Id { get; set; }
-        public DateTime Date { get; set; }
-        public string Username { get; set; }
-        public string Message { get; set; }
     }
 }

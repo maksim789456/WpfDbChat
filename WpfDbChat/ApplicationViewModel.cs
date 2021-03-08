@@ -26,6 +26,23 @@ namespace WpfDbChat
             get => _username;
             set { _username = value; OnPropertyChanged(); }
         }
+        
+        public RelayCommand AddCommand
+        {
+            get
+            {
+                return addCommand ??= new RelayCommand(obj =>
+                {
+                    ChatItemDb chatItem = new ChatItemDb {Date = DateTime.Now, Username = _username, Message = _text};
+                    ChatItems.Insert(0, chatItem);
+                    Text = "";
+
+                    using AppDbContext context = new AppDbContext();
+                    context.ChatItems.Add(chatItem);
+                    context.SaveChanges();
+                });
+            }
+        }
 
         public ObservableCollection<ChatItem> ChatItems { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
@@ -33,6 +50,8 @@ namespace WpfDbChat
         private ChatItem _selectedItem;
         private string _text;
         private string _username;
+        
+        private RelayCommand addCommand;
 
         public ApplicationViewModel()
         {
@@ -49,27 +68,6 @@ namespace WpfDbChat
                         Message = item.Message
                     });
                 }
-            }
-        }
-        
-        private RelayCommand addCommand;
-        public RelayCommand AddCommand
-        {
-            get
-            {
-                return addCommand ??
-                       (addCommand = new RelayCommand(obj =>
-                       {
-                           ChatItem chatItem = new ChatItem {Date = DateTime.Now, Username = _username, Message = _text};
-                           ChatItems.Insert(0, chatItem);
-                           Text = "";
-
-                           using (AppDbContext context = new AppDbContext())
-                           {
-                               context.ChatItems.Add(new ChatItemDb{Date = chatItem.Date, Username = chatItem.Username, Message = chatItem.Message});
-                               context.SaveChanges();
-                           }
-                       }));
             }
         }
 
